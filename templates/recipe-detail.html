@@ -21,6 +21,8 @@
 									{% endfor %}
 									<h2>{{ recipe.description|truncatewords:10}}</h2>
 									<p>{{ recipe.description }}</p>
+									<a href="{% url 'update-recipe' recipe.id %}"><i class="fas fa-edit"></i></a>
+									<a href="{% url 'delete-recipe' recipe.id %}"><i class="fas fa-trash"></i></a>
 
 
 								</section>
