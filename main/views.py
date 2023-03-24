@@ -3,12 +3,29 @@ from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
+from django.views.generic import ListView
+
 from main.forms import RecipeForm, ImageForm
 from main.models import *
 
 
-def index(request):
-    return render(request, 'index.html')
+# def index(request):
+#     return render(request, 'index.html')
+
+class MainPageView(ListView):
+    model = Recipe
+    template_name = 'index.html'
+    context_object_name = 'recipes'
+
+    def get_template_names(self):
+        template_name = super(MainPageView, self).get_template_names()
+        search = self.request.GET.get('q')
+        if search:
+           template_name = 'search.html'
+        return template_name
+
+
+
 
 
 def category_detail(request, slug):
