@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -23,6 +24,16 @@ class MainPageView(ListView):
         if search:
            template_name = 'search.html'
         return template_name
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search = self.request.GET.get('q')
+        if search:
+            context['recipes'] = Recipe.objects.filter(Q(title__icontains=search)|
+                                                       Q(description__icontains=search))
+        else:
+            context['recipes'] = Recipe.objects.all()
+        return context
 
 
 
