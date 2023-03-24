@@ -10,33 +10,30 @@ from main.forms import RecipeForm, ImageForm
 from main.models import *
 
 
-# def index(request):
-#     return render(request, 'index.html')
+def index(request):
+    return render(request, 'index.html')
 
-class MainPageView(ListView):
-    model = Recipe
-    template_name = 'index.html'
-    context_object_name = 'recipes'
-
-    def get_template_names(self):
-        template_name = super(MainPageView, self).get_template_names()
-        search = self.request.GET.get('q')
-        if search:
-           template_name = 'search.html'
-        return template_name
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        search = self.request.GET.get('q')
-        if search:
-            context['recipes'] = Recipe.objects.filter(Q(title__icontains=search)|
-                                                       Q(description__icontains=search))
-        else:
-            context['recipes'] = Recipe.objects.all()
-        return context
-
-
-
+# class MainPageView(ListView):
+#     model = Recipe
+#     template_name = 'index.html'
+#     context_object_name = 'recipes'
+#
+#     def get_template_names(self):
+#         template_name = super(MainPageView, self).get_template_names()
+#         search = self.request.GET.get('q')
+#         if search:
+#            template_name = 'search.html'
+#         return template_name
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         search = self.request.GET.get('q')
+#         if search:
+#             context['recipes'] = Recipe.objects.filter(Q(title__icontains=search)|
+#                                                        Q(description__icontains=search))
+#         else:
+#             context['recipes'] = Recipe.objects.all()
+#         return context
 
 
 def category_detail(request, slug):
