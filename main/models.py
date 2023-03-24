@@ -15,6 +15,12 @@ class Category(models.Model):
             return f'{self.parent} -> {self.name}'
         return self.name
 
+    @property
+    def get_children(self):
+        if self.children:
+            return self.children.all()
+        return False
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
@@ -27,8 +33,15 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def get_image(self):
+        return self.images.first()
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to='recipes')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return self.image.url
 
